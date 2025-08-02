@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head>
+    <title>Messages</title>
+</h:head>
+<h:body>
+    <h:form>
+        <h:messages globalOnly="true" />
+
+        <h:dataTable value="#{messageBean.messages}" var="msg">
+            <h:column>
+                <f:facet name="header">Title</f:facet>
+                #{msg.title}
+            </h:column>
+            <h:column>
+                <h:commandLink value="View" action="#{messageBean.prepareToView}">
+                    <f:setPropertyActionListener value="#{msg}" target="#{messageBean.selectedMessage}" />
+                </h:commandLink>
+                
+                <h:commandButton value="Delete" action="#{messageBean.deleteMessage}">
+    				<f:setPropertyActionListener value="#{msg}" target="#{messageBean.selectedMessage}" />
+    				<f:ajax render="@form" />
+				</h:commandButton>
+            </h:column>
+        </h:dataTable>
+    </h:form>
+</h:body>
+</html>
+

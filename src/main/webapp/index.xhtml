@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head>
+    <title>Secure Message Vault</title>
+</h:head>
+<h:body>
+
+    <!-- Form for saving a new message -->
+    <h:form>
+        <h:outputText value="Create a New Message:" />
+        <h:inputText value="#{messageBean.title}" placeholder="Title" />
+        <h:inputTextarea value="#{messageBean.content}" placeholder="Content" />
+        <h:inputSecret value="#{messageBean.keyword}" placeholder="Keyword" />
+        <h:commandButton value="Save" action="#{messageBean.saveMessage}" />
+    </h:form>
+
+    <!-- Separate form for actions in the data table -->
+    <h:form>
+        <h:dataTable value="#{messageBean.messages}" var="m">
+            <h:column>
+                <f:facet name="header">Title</f:facet>
+                #{m.title}
+            </h:column>
+            <h:column>
+                <h:commandLink value="View" action="#{messageBean.prepareToView}">
+                    <f:setPropertyActionListener value="#{m}" target="#{messageBean.selectedMessage}" />
+                </h:commandLink>
+            </h:column>
+            <h:column>
+                <h:commandButton value="Delete" action="#{messageBean.deleteMessage}">
+                    <f:setPropertyActionListener value="#{m}" target="#{messageBean.selectedMessage}" />
+                    <f:ajax render="@form"/>
+                </h:commandButton>
+            </h:column>
+        </h:dataTable>
+    </h:form>
+
+</h:body>
+</html>
+
